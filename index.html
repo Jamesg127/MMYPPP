@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why All Americans Are Lazy (Even You)</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=McLaren&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #1a73e8;
+      --primary-hover: #1557b0;
+      --bg-color: #f8f9fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 20px 80px 20px;
+      font-family: 'McLaren', sans-serif;
+      background-color: var(--bg-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Scalable Master Wrapper */
+    .dashboard-wrapper {
+      width: 100%;
+      max-width: 1400px;
+      transform-origin: 50% 0%;
+      transition: transform 0.15s ease-out;
+    }
+
+    /* Fixed Controls */
+    .zoom-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 6px 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 6px;
+    }
+
+    .zoom-btn {
+      font-family: 'McLaren', sans-serif;
+      font-size: 16px;
+      padding: 6px 12px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .zoom-btn:hover {
+      background: #eee;
+    }
+
+    .sources-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      padding: 10px 20px;
+      font-family: 'McLaren', sans-serif;
+      font-size: 15px;
+      font-weight: bold;
+      color: #ffffff;
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.2s;
+    }
+
+    .sources-btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Top Title Block */
+    .title-box {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .title-box .editable-text-area {
+      font-size: 32px;
+      font-weight: bold;
+      color: #1a1a1a;
+      outline: none;
+      padding: 8px;
+    }
+
+    /* 3 Column Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .card-container {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .card-container:hover,
+    .card-container:focus-within {
+      border-color: #4285f4;
+      box-shadow: 0 4px 10px rgba(66, 133, 244, 0.15);
+    }
+    .card-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px;
+    }
+    .card-image-padding {
+      padding: 16px;
+}
+
+.card-image-padding {
+  padding: 16px;
+}
+
+    .editable-text-area {
+      width: 100%;
+      outline: none;
+      font-family: 'McLaren', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      padding: 16px;
+      color: #333;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Modal Overlay Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background-color: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #70757a;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #202124;
+    }
+
+    .sources-list {
+      margin: 16px 0 0 0;
+      padding-left: 20px;
+    }
+
+    .sources-list li {
+      margin-bottom: 12px;
+    }
+
+    .sources-list a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .sources-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="zoom-controls">
+    <button class="zoom-btn" onclick="changePageZoom(-0.1)">-</button>
+    <button class="zoom-btn" onclick="changePageZoom(0.1)">+</button>
+  </div>
+
+  <button class="sources-btn" onclick="openModal()">Sources</button>
+
+  <main class="dashboard-wrapper" id="dashboardWrapper">
+    <div class="title-box">
+      <div class="editable-text-area" contenteditable="true">Why All Americans Are Lazy (Even You)</div>
+    </div>
+
+    <div class="dashboard-grid">
+      
+      <div class="column">
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Delivery Services:</strong> Because delivery services are so much more efficient than humans, and because people don't want to cook, or go to the store, people are getting more lazy. By not going to the store or cooking from home, people are fulfilling their happy side, but you also need to fulfill your pain side, because you won't get better if you don't try something new. No pain no gain. It seems like its the most efficient way to do something, which it might be, but you won't benefit from it. Doing things like going to the store and biking to places instead of ordering can save you physical and mental health.
+          </div>
+        </div>
+
+        <div class="card-container card-image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4fQfspSE3Riew-e_4ZDY4VunXo733DCXqAbIAc4lqmg&s=10 alt="Description">
+        </div>
+
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Labor-Saving Devices:</strong> Even things like dishwashers and washing machines that you think you couldn't live without, people before us thrived without those same things for thousands of years. We don't realize how much we rely on things - especially things that run on electricity - in our life. The microwave, you might use everyday, but that really just lets you cook food faster than if it were on the stove. Manually washing dishes and clothes is a lot more time consuming than it is now. Even things like robot vacuums are are a lot more time consuming than you think.
+          </div>
+        </div>
+
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Redefined Leisure:</strong> Instead of people exploring the ravine behind their house like your grandpa said was his entertainment, people are playing video games. People like to play videogames and do other inactive stuff, because why work more and be more active, to have fun, when you can just sit in a couch or chair and talk with friends. There are even small things that contribute such as things like vacuums, that make cleaning the floor easier, to even robot vacuums that do it for us. Most of these things are things that we do every day, but may not realize how much time it saves us.
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Artificial Inteligence:</strong> A massive contributive to lazieness recently has been AI. Why should I have to work for 8 hours a day when all I have to do is ask AI to do it for me? AI has made it so much easier for people to use their job, and when you can be lazy AND still get paid for doing nothing, thats a significant bonus. But AI has made it so much more difficult for newer generations to comprehend things that we should know because AI is basically giving us our information, wihtout telling us how it got that information, which makes us lose knowledge and the process of understanding. We can sometimes rely on AI so much that we forget the foundational skills that everyone should know, an example being spelling. Foundational skills are essential because every single complex skill is built on top of them. Take swimming, for example: why buy the most expensive gear or grind through intense workouts just because someone tells you to, without understanding why you are doing it? If you start from the basics and build your way up naturally, you discover the purpose behind each technique. You learn how to get better through genuine understanding, rather than just blindly logging more laps than everyone else every day. 
+          </div>
+            
+        </div>
+          <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Conclusion:</strong> In Conclusion, people want to be lazy because that's easier. But having an easy life doesn't mean you have a good life. A good life is where you have everything you need and want and can do fun things, but a lazy life is just living on the edge, doing things you need to survive, but never preparing for your future. This is like the instant gratification mindset, where if you spend all of your money now instead of saving it for later, you might be happier now, but you will lose out on being happier later. Because you don't know what is going to happen later, you should be less lazy and be more active and do what will be good for you in the long run.
+          </div>
+        </div>
+          <div class="card-container card-image">
+            <img src="https://piktochart.com/wp-content/uploads/2025/06/has-ai-made-people-more-productive-ai-in-the-workforce.webp">
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Entertainment Streaming:</strong> The phenomenon known as the Zeigarnik Effect is one of the reasons that streaming services are making us lazy. The Zeigarnik effect is when you remember unfinished tasks better than finished tasks, leading to people finishing things that they remember, which are the things that they like more; which may be things that are less valuable than more important things.
+          </div>
+        </div>
+
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Instant Gratification Mindset:</strong> The instant gratification mindest is when you do something that you will immediately like, such as playing videogames with you friends, watching TV, hanging out with you friends, and in general, being lazy. But the opposite of this is when you will be gratified later on, such as going to the gym everyday, going on a run, studying for a test, and being active in general. People want to have that instant gratification because it makes them feel good, whereas the longer gratification mindset makes you feel good later, but people don't want to wait for that.
+          </div>
+        </div>
+
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Working From Home:</strong> When Covid-19 hit, people started working from home a lot more, 12% of people in the US started working from home, increasing their laziness by a lot. When you don't have somewhere to be, you will be more lazy. Most jobs that you don't work from home are also very active, like waiting a restraunt, or way back when, when you had to whack a peice of iron or steel for a couple of hours, or when you had to lay thousands of brincks per day.
+          </div>
+        </div>
+          
+        <div class="card-container">
+          <div class="editable-text-area" contenteditable="true">
+            <strong>Burnout:</strong> Burnout just makes you want to be lazy and not be productive It's difficult to do things that yo don't want to do at that current time, even if it means you will benefit in the future, a common example being work. People that are burnt out usually are burnt out from their work or school, and don't want to do those things becuase they are tired and bored of doing those things, even though they need to do those things.
+          </div>
+        </div>
+          <div class="card-container card-image">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu5gq0paCP3OXI23_i989cO_d9_pqAhMkDKFxqd1A8Yg&s" alt="Description">
+        </div>
+          
+      </div>
+
+    </div>
+  </main>
+
+  <div id="sourcesModal" class="modal-overlay" onclick="closeModalOnOuterClick(event)">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>References & Sources</h2>
+      <ul class="sources-list">
+        <li><a href="https://medium.com/mind-cafe/why-modern-people-are-so-incredibly-lazy-e6fafb8a35d1" target="_blank" rel="noopener noreferrer">Why Modern People Are So Incredibly Lazy (Medium)</a></li>
+        <li><a href="https://www.science.org/doi/10.1126/science.aec7671" target="_blank" rel="noopener noreferrer">Scientific Perspective on Modern Laziness (Science.org)</a></li>
+        <li><a href="https://medium.com/@irena001/why-working-from-home-is-lazy-536cb638fe69" target="_blank" rel="noopener noreferrer">Why Working From Home Is Lazy (Medium)</a></li>
+        <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10267312/" target="_blank" rel="noopener noreferrer">Work-From-Home & Physical Activity Patterns (NCBI / PMC)</a></li>
+        <li><a href="https://hss.sas.upenn.edu/content/more-work-mother-ironies-household-technology-open-hearth-microwave" target="_blank" rel="noopener noreferrer">More Work For Mother: Ironies of Household Technology (Penn Arts & Sciences)</a></li>
+        <li><a href="https://www.annakschaffner.com/post/the-lost-saved-time-paradox-why-faster-tech-isn-t-buying-us-more-freedom" target="_blank" rel="noopener noreferrer">The Lost Saved-Time Paradox: Why Faster Tech Isn't Buying Us Freedom (Anna K. Schaffner)</a></li>
+        <li><a href="https://vibhahealingcentre.com/blogs/the-psychological-tactics-tv-shows-use-to-maintain-audience-attention/" target="_blank" rel="noopener noreferrer">Psychological Tactics TV Shows Use to Maintain Audience Attention (Vibha Healing Centre)</a></li>
+        <li><a href="https://dailyillini.com/opinions-stories/2019/03/11/food-delivery-encourages-laziness/" target="_blank" rel="noopener noreferrer">Food Delivery Encourages Laziness (Daily Illini)</a></li>
+        <li><a href="https://acp-mn.com/about-acp/blog/why-delaying-gratification-is-beneficial/" target="_blank" rel="noopener noreferrer">Why Delaying Gratification Is Beneficial (ACP MN Blog)</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const wrapper = document.getElementById('dashboardWrapper');
+    let currentScale = 1;
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+
+    // Track mouse coordinates silently without moving the page layout
+    window.addEventListener('mousemove', function(event) {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+    });
+
+    function setZoomOriginToCursor() {
+      const rect = wrapper.getBoundingClientRect();
+      // Calculate cursor position relative to wrapper bounds
+      const x = Math.min(Math.max(((mouseX - rect.left) / rect.width) * 100, 0), 100);
+      const y = Math.min(Math.max(((mouseY - rect.top) / rect.height) * 100, 0), 100);
+
+      wrapper.style.transformOrigin = `${x}% ${y}%`;
+    }
+
+    function changePageZoom(amount) {
+      setZoomOriginToCursor();
+      currentScale = Math.min(Math.max(currentScale + amount, 0.6), 1.6);
+      wrapper.style.transform = `scale(${currentScale})`;
+    }
+
+    /* Keyboard shortcuts */
+    window.addEventListener('keydown', function(event) {
+      if (document.activeElement && document.activeElement.getAttribute('contenteditable') === 'true') {
+        return; 
+      }
+
+      if (event.key === '-' || event.key === '_') {
+        changePageZoom(-0.1);
+      } else if (event.key === '+' || event.key === '=') {
+        changePageZoom(0.1);
+      } else if (event.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    /* Modal Script */
+    function openModal() {
+      document.getElementById('sourcesModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('sourcesModal').style.display = 'none';
+    }
+
+    function closeModalOnOuterClick(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>
